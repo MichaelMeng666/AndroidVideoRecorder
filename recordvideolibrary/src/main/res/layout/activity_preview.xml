@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.merchantplatform.ui.videorecorder.view.CameraPreview
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.merchantplatform.ui.videorecorder.view.RecordProgressBar
+        android:id="@+id/record_pb"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_focus_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/video_focus_icon"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_max_record_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:text="长按可录制20秒"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <com.merchantplatform.ui.videorecorder.view.RecordStartView
+        android:id="@+id/button_start"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" />
+
+    <ImageView
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_start"
+        android:layout_marginRight="65dp"
+        android:layout_toLeftOf="@+id/button_start"
+        android:padding="15dp"
+        android:src="@mipmap/icon_close" />
+
+    <ImageView
+        android:id="@+id/change_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_start"
+        android:layout_marginLeft="60dp"
+        android:layout_toRightOf="@+id/button_start"
+        android:padding="20dp"
+        android:src="@mipmap/icon_camera" />
+
+</RelativeLayout>

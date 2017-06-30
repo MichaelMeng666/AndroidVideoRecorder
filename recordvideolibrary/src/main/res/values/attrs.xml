@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RecordProgressBar">
+        <attr name="rpb_backgroundColor" format="color" />
+        <attr name="rpb_runningColor" format="color" />
+        <attr name="rpb_cancelColor" format="color" />
+        <attr name="rpb_timeLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="CameraPreview">
+        <attr name="cpv_focusDrawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordStartView">
+        <attr name="mRingColor" format="color" />
+        <attr name="mCenterColor" format="color" />
+        <attr name="mRingProgressColor" format="color" />
+        <attr name="mRingWidth" format="dimension" />
+        <attr name="mRingMax" format="integer" />
+        <attr name="mRingMin" format="integer" />
+    </declare-styleable>
+</resources>
