@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.merchantplatform.ui.videorecorder.view.CameraPreview
+    <michael.com.recordvideolibrary.view.CameraPreview
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.merchantplatform.ui.videorecorder.view.RecordProgressBar
+    <michael.com.recordvideolibrary.view.RecordProgressBar
         android:id="@+id/record_pb"
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -34,7 +34,7 @@
         android:textColor="@android:color/white"
         android:textSize="14sp" />
 
-    <com.merchantplatform.ui.videorecorder.view.RecordStartView
+    <michael.com.recordvideolibrary.view.RecordStartView
         android:id="@+id/button_start"
         android:layout_width="70dp"
         android:layout_height="70dp"
