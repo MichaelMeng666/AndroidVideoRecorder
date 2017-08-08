@@ -2,8 +2,10 @@ package michael.com.recordvideolibrary.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.hardware.SensorManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ import michael.com.recordvideolibrary.module.VideoObject;
 import michael.com.recordvideolibrary.ui.VideoRecorderBaseActivity;
 import michael.com.recordvideolibrary.utils.FileUtils;
 import michael.com.recordvideolibrary.utils.ImageUtils;
+import michael.com.recordvideolibrary.utils.SensorOrientationEventListener;
 import michael.com.recordvideolibrary.view.CameraPreview;
 import michael.com.recordvideolibrary.view.RecordProgressBar;
 import michael.com.recordvideolibrary.view.RecordStartView;
@@ -50,6 +53,8 @@ public class RecorderActivity extends VideoRecorderBaseActivity implements IVide
     private Animation mFocusAnimation;
     private ImageView mFocusAnimationView;
     private boolean isFocusAnimationHasShow = false;
+    private SensorOrientationEventListener mSensorOrientationEventListener;
+    private int currentOrientation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,6 +162,19 @@ public class RecorderActivity extends VideoRecorderBaseActivity implements IVide
                 recordTooShort();
             }
         });
+
+        mSensorOrientationEventListener = new SensorOrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL);
+        if (mSensorOrientationEventListener.canDetectOrientation()) {
+            mSensorOrientationEventListener.enable();
+        } else {
+            Log.e("--->>>meng", "Can't Detect Sensor");
+        }
+        mSensorOrientationEventListener.setOrientationEventListener(new SensorOrientationEventListener.OrientationChangeListener() {
+            @Override
+            public void currentOrientation(int orientation) {
+                currentOrientation = orientation;
+            }
+        });
     }
 
 
@@ -251,7 +269,10 @@ public class RecorderActivity extends VideoRecorderBaseActivity implements IVide
     }
 
     private void afterRecorded() {
-
+        Intent intent = new Intent(this, VideoPlayActivity.class);
+        intent.putExtra("videoPath", recordPath);
+        intent.putExtra("thumbPath", thumbPath);
+        startActivity(intent);
     }
 
     @Override
@@ -262,6 +283,12 @@ public class RecorderActivity extends VideoRecorderBaseActivity implements IVide
         releaseMediaRecorder();       // if you are using MediaRecorder, release it first
         releaseCamera();              // release the camera immediately on pause event
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mSensorOrientationEventListener.disable();
+        super.onDestroy();
     }
 
     /**
@@ -316,10 +343,17 @@ public class RecorderActivity extends VideoRecorderBaseActivity implements IVide
 
         mMediaRecorder.setMaxDuration(MAX_TIME * 1000);
 
-        if (mPreview.getCameraState() == 0) {
+        //根据前后摄像头进行角度旋转，保证视频始终是竖直的
+        /*if (mPreview.getCameraState() == 0) {
             mMediaRecorder.setOrientationHint(90);
         } else {
             mMediaRecorder.setOrientationHint(270);
+        }*/
+        //根据重力传感器返回的竖直，使输出的文件始终保持内容方向正确
+        if (mPreview.getCameraState() == 0) {
+            mMediaRecorder.setOrientationHint((currentOrientation + 90) % 360);
+        } else {
+            mMediaRecorder.setOrientationHint((currentOrientation + 270) % 360);
         }
 
         // Step 6: Prepare configured MediaRecorder
